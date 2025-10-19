@@ -2,12 +2,18 @@ package main
 
 import (
 	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
+	"image/color"
+	"math"
 	"math/rand"
 	"strconv"
 	"strings"
 	"unsafe"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
 )
 
 func sizeOf[T any](x T) {
@@ -23,6 +29,10 @@ func reverseByte(bytes [8]byte) [8]byte {
 	return reversed
 }
 
+func arrayToString(array any) string {
+	return strings.Trim(strings.Join(strings.Fields(fmt.Sprint(array)), ""), "[]")
+}
+
 func intToBinary(num uint8) [8]byte {
 	var bytes [8]byte
 	var bit uint8
@@ -34,51 +44,62 @@ func intToBinary(num uint8) [8]byte {
 	return reverseByte(bytes)
 }
 
-func hashSalt(url string) string {
-	hasher := sha256.New()
-	salt := rand.Intn(len(url) - (2 * len(url)) + (2 * len(url)))
-	hasher.Write([]byte(url + strconv.Itoa(salt)))
-	return hex.EncodeToString(hasher.Sum(nil))
-}
-
-func main() {
+func stringToBinary(str string) []int {
 	var binary []int
-
-	word := "aaa"
-	for i := 0; i < len(word); i++ {
-		converted := intToBinary(word[i])
+	for i := 0; i < len(str); i++ {
+		converted := intToBinary(str[i])
 		for j := 0; j < len(converted); j++ {
 			binary = append(binary, int(converted[j]))
 		}
 	}
+	return binary
+}
 
-	final := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(binary)), ""), "[]")
+func hashSalt(url string) []int {
+	var binary []int
+	hasher := sha256.New()
+	salt := rand.Intn(len(url))
 
-	hashed := hashSalt(final)
+	hasher.Write([]byte(url + strconv.Itoa(salt)))
+	hashed := hasher.Sum(nil)
 	fmt.Println(hashed)
+	for i := 0; i < len(hashed); i++ {
+		converted := intToBinary(hashed[i])
+		for j := 0; j < len(converted); j++ {
+			binary = append(binary, int(converted[j]))
+		}
+	}
+	return binary
+}
 
-	/*
+func main() {
+	url := "youtube.com"
+	binary := stringToBinary(url)
+	final := arrayToString(binary)
+	hashed := hashSalt(final)
 
-	 */
-	/*
-		a := app.New()
-		w := a.NewWindow("Hello World")
+	test := arrayToString(hashed)
+	fmt.Println(test)
 
-		gridSize := int(math.Ceil(math.Sqrt(float64(len(binary)))))
-		grid := container.NewGridWithColumns(gridSize)
+	a := app.New()
+	w := a.NewWindow("Hello World")
 
-		for i := 0; i < gridSize*gridSize; i++ {
-			rect := canvas.NewRectangle(color.Black)
+	fmt.Println(len(hashed))
+	gridSize := int(math.Ceil(math.Sqrt(float64(len(hashed)))))
+	fmt.Println(gridSize)
+	grid := container.NewGridWithColumns(gridSize)
 
-			if i < len(binary) && binary[i] == 1 {
-				rect.FillColor = color.White
-			}
+	for i := 0; i < gridSize*gridSize; i++ {
+		rect := canvas.NewRectangle(color.Black)
 
-			rect.SetMinSize(fyne.NewSize(20, 20))
-			grid.Add(rect)
+		if i < len(hashed) && hashed[i] == 1 {
+			rect.FillColor = color.White
 		}
 
-		w.SetContent(grid)
-		w.ShowAndRun()
-	*/
+		rect.SetMinSize(fyne.NewSize(20, 20))
+		grid.Add(rect)
+	}
+
+	w.SetContent(grid)
+	w.ShowAndRun()
 }
