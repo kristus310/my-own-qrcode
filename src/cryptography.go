@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -17,7 +18,7 @@ const (
 	WithoutSalt
 )
 
-func hash(url string, salt Salt) []int {
+func hash(url string, salt Salt) ([]int, string) {
 	var binary []int
 	var hasher = sha256.New()
 
@@ -35,7 +36,7 @@ func hash(url string, salt Salt) []int {
 			binary = append(binary, int(converted[j]))
 		}
 	}
-	return binary
+	return binary, hex.EncodeToString(hashed)
 }
 
 func encode(url string) []int {

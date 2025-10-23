@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 
 	"fyne.io/fyne/v2/container"
@@ -12,10 +13,17 @@ func main() {
 	myApp.CreateWindow("Application", NULL)
 
 	const URL string = "prdelprdelprdelprdelprdelprdela"
-	hashedURL := hash(URL, WithoutSalt)
+	hashedURL, hashedToHex := hash(URL, WithoutSalt)
+	fmt.Println(hashedToHex)
 
 	//encodedURL := encode(URL)
 	//fmt.Println(encodedURL)
+
+	var db Database
+	db.Initialize()
+	db.StoreHash(hashedToHex)
+
+	defer db.Database.Close()
 
 	var code Code
 	gridSize := int(math.Sqrt(float64(FixedGridSize)))
