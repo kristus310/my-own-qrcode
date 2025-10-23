@@ -2,9 +2,12 @@ package main
 
 import (
 	"crypto/sha256"
+	"fmt"
 	"math/rand"
 	"strconv"
 )
+
+const FixedGridSize = 256
 
 type Salt int
 
@@ -33,4 +36,22 @@ func hash(url string, salt Salt) []int {
 		}
 	}
 	return binary
+}
+
+func encode(url string) []int {
+	encoded := url
+	fmt.Println(encoded)
+
+	firstPadding := true
+	for len(encoded) < FixedGridSize/8 {
+		if firstPadding {
+			encoded += "!"
+			firstPadding = false
+		} else {
+			encoded += "A"
+		}
+	}
+	fmt.Println(encoded)
+	fmt.Println(stringToBinary(encoded))
+	return stringToBinary(encoded)
 }

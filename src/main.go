@@ -11,11 +11,14 @@ func main() {
 	myApp.CreateApp()
 	myApp.CreateWindow("Application", NULL)
 
-	const URL string = "youtube.com"
-	hashedURL := hash(URL, WithSalt)
+	const URL string = "prdelprdelprdelprdelprdelprdela"
+	hashedURL := hash(URL, WithoutSalt)
+
+	//encodedURL := encode(URL)
+	//fmt.Println(encodedURL)
 
 	var code Code
-	gridSize := int(math.Ceil(math.Sqrt(float64(len(hashedURL)))))
+	gridSize := int(math.Sqrt(float64(FixedGridSize)))
 	code = Code{
 		gridSize,
 		20,
