@@ -35,10 +35,16 @@ func intToBinary(num uint8) [8]byte {
 	return reverseByte(bytes)
 }
 
-func stringToBinary(str string) []int {
+func stringToBinary(str string, randomize bool) []int {
 	var binary []int
+	var converted [8]byte
+
 	for i := 0; i < len(str); i++ {
-		converted := intToBinary(str[i])
+		if randomize {
+			converted = intToBinary(str[i] * uint8(i+1))
+		} else {
+			converted = intToBinary(str[i])
+		}
 		for j := 0; j < len(converted); j++ {
 			binary = append(binary, int(converted[j]))
 		}
@@ -47,5 +53,5 @@ func stringToBinary(str string) []int {
 }
 
 func formattingURL(url string) string {
-	return arrayToString(stringToBinary(url))
+	return arrayToString(stringToBinary(url, false))
 }

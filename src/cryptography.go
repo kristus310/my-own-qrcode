@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
+	"strings"
 )
 
-const FixedGridSize = 256
+const FixedGridSize = 576
 
 type Salt int
 
@@ -40,19 +41,25 @@ func hash(url string, salt Salt) ([]int, string) {
 }
 
 func encode(url string) []int {
-	encoded := url
-	fmt.Println(encoded)
+	https := "https://"
+	http := "http://"
+	if strings.HasPrefix(url, https) {
+		url = url[len(https):]
+	} else if strings.HasPrefix(url, http) {
+		url = url[len(http):]
+	}
 
 	firstPadding := true
-	for len(encoded) < FixedGridSize/8 {
+	for len(url) < FixedGridSize/8 {
 		if firstPadding {
-			encoded += "!"
+			url += "!"
 			firstPadding = false
 		} else {
-			encoded += "A"
+			url += "A"
 		}
 	}
-	fmt.Println(encoded)
-	fmt.Println(stringToBinary(encoded))
-	return stringToBinary(encoded)
+	binary := stringToBinary(url, true)
+	fmt.Println(url)
+	fmt.Println(binary)
+	return binary
 }

@@ -12,18 +12,22 @@ func main() {
 	myApp.CreateApp()
 	myApp.CreateWindow("Application", NULL)
 
-	const URL string = "prdelprdelprdelprdelprdelprdela"
-	hashedURL, hashedToHex := hash(URL, WithoutSalt)
-	fmt.Println(hashedToHex)
+	const URL string = "fake-domain-for--farters-tests-abcdefghijklmnopqrstuvwxyz0123.com/path"
 
-	//encodedURL := encode(URL)
-	//fmt.Println(encodedURL)
+	encodedURL := encode(URL)
+	fmt.Println(encodedURL)
 
-	var db Database
-	db.Initialize()
-	db.StoreHash(hashedToHex)
+	/*
+		hashedURL, hashedToHex := hash(URL, WithSalt)
+		fmt.Println(hashedURL)
+		fmt.Println(hashedToHex)
 
-	defer db.Database.Close()
+		var db Database
+		db.Initialize()
+		db.StoreHash(hashedToHex, URL)
+
+		defer db.Database.Close()
+	*/
 
 	var code Code
 	gridSize := int(math.Sqrt(float64(FixedGridSize)))
@@ -33,7 +37,7 @@ func main() {
 		container.NewGridWithColumns(gridSize),
 	}
 
-	myApp.Window.DrawCode(code, hashedURL)
+	myApp.Window.DrawCode(code, encodedURL)
 	myApp.Window.SetContent(code.Grid)
 	myApp.Window.Open()
 	//myApp.Window.SavePNG("build/output.png")
