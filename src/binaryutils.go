@@ -6,7 +6,7 @@ import (
 	"unsafe"
 )
 
-// Only for me and testing purposes
+// Only for mine and testing purposes
 func sizeOf[T any](x T) {
 	y := unsafe.Sizeof(x)
 	fmt.Printf("Bits: %d & bytes: %d", y*8, y)

@@ -57,8 +57,15 @@ func (w *Window) DrawCode(code Code, hashed []int) {
 	}
 }
 
-func (w *Window) SavePNG(imagePath string) {
-	file, err := os.Create(imagePath)
+func (w *Window) SavePNG(fileName string) {
+	var err error
+	var file *os.File
+
+	buildDirectory := ".build/"
+	err = createDirectory(buildDirectory)
+	checkError(err, "Creating directory", true)
+
+	file, err = os.Create(buildDirectory + fileName)
 	checkError(err, "Creating the image file", false)
 
 	defer func(file *os.File) {

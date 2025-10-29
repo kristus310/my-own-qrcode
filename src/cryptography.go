@@ -58,7 +58,7 @@ func encode(url string) []int {
 			url += "A"
 		}
 	}
-	binary := stringToBinary(url, false)
+	binary := stringToBinary(url, true)
 	fmt.Println(url)
 	fmt.Println(binary)
 	return binary

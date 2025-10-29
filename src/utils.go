@@ -21,3 +21,13 @@ func checkError(err error, message string, important bool) {
 		}
 	}
 }
+
+func createDirectory(directoryName string) error {
+	permission := os.FileMode(777) //The folder can be read and written by EVERYONE
+
+	err := os.MkdirAll(directoryName, permission)
+	if err != nil && os.IsNotExist(err) {
+		return err
+	}
+	return nil
+}

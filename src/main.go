@@ -40,6 +40,6 @@ func main() {
 	myApp.Window.DrawCode(code, encodedURL)
 	myApp.Window.SetContent(code.Grid)
 	myApp.Window.Open()
-	myApp.Window.SavePNG("build/output.png")
+	myApp.Window.SavePNG("output.png")
 	myApp.Run()
 }
