@@ -12,7 +12,7 @@ func main() {
 	myApp.CreateApp()
 	myApp.CreateWindow("Application", NULL)
 
-	const URL string = "fake-domain-for--farters-tests-abcdefghijklmnopqrstuvwxyz0123.com/path"
+	const URL string = "https://youtube.com"
 
 	encodedURL := encode(URL)
 	fmt.Println(encodedURL)
@@ -40,6 +40,6 @@ func main() {
 	myApp.Window.DrawCode(code, encodedURL)
 	myApp.Window.SetContent(code.Grid)
 	myApp.Window.Open()
-	//myApp.Window.SavePNG("build/output.png")
+	myApp.Window.SavePNG("build/output.png")
 	myApp.Run()
 }

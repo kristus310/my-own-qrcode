@@ -52,13 +52,13 @@ func encode(url string) []int {
 	firstPadding := true
 	for len(url) < FixedGridSize/8 {
 		if firstPadding {
-			url += "!"
+			url += "!" + strconv.Itoa(len(url)) + "!"
 			firstPadding = false
 		} else {
 			url += "A"
 		}
 	}
-	binary := stringToBinary(url, true)
+	binary := stringToBinary(url, false)
 	fmt.Println(url)
 	fmt.Println(binary)
 	return binary
