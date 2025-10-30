@@ -61,7 +61,7 @@ func (w *Window) SavePNG(fileName string) {
 	var err error
 	var file *os.File
 
-	buildDirectory := ".build/"
+	buildDirectory := ".build"
 	err = createDirectory(buildDirectory)
 	checkError(err, "Creating directory", true)
 
