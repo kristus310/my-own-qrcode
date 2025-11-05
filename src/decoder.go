@@ -6,6 +6,19 @@ import (
 	"strings"
 )
 
+func removePadding(str string) string {
+	var finished string
+	firstPadding := strings.Index(str, "!")
+	secondPadding := strings.LastIndex(str, "!")
+
+	for i, j := range str {
+		if i > firstPadding && i < secondPadding {
+			finished += string(j)
+		}
+	}
+	return finished
+}
+
 func decode(encodedBinary []int) {
 	var url string
 	var bytis [8]byte
@@ -37,5 +50,10 @@ func decode(encodedBinary []int) {
 		}
 	}
 	fmt.Println(encodedBinary)
+	fmt.Println(url)
+
+	fmt.Println("FINAL URL:")
+	url = removePadding(url)
+	fmt.Println(len(url))
 	fmt.Println(url)
 }
