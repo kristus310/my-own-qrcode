@@ -6,6 +6,11 @@ import (
 	"unsafe"
 )
 
+type Randomize struct {
+	Randomized bool
+	Seed       int
+}
+
 // Only for mine and testing purposes
 func sizeOf[T any](x T) {
 	y := unsafe.Sizeof(x)
@@ -35,13 +40,22 @@ func intToBinary(num uint8) [8]byte {
 	return reverseByte(bytes)
 }
 
-func stringToBinary(str string, randomize bool) []int {
+func binaryToInt(bits [8]byte) uint8 {
+	var num uint8 = 0
+	for i := 0; i < 8; i++ {
+		num = num*2 + bits[i]
+	}
+	return num
+}
+
+func stringToBinary(str string, random Randomize) []int {
 	var binary []int
 	var converted [8]byte
 
+	fmt.Println(strings.Index(str, "!"))
 	for i := 0; i < len(str); i++ {
-		if randomize {
-			converted = intToBinary(str[i] * uint8(i+1))
+		if random.Randomized && i > strings.Index(str, "!") {
+			converted = intToBinary(str[i] ^ uint8(i*random.Seed))
 		} else {
 			converted = intToBinary(str[i])
 		}
@@ -53,5 +67,5 @@ func stringToBinary(str string, randomize bool) []int {
 }
 
 func formattingURL(url string) string {
-	return arrayToString(stringToBinary(url, false))
+	return arrayToString(stringToBinary(url, Randomize{false, 0}))
 }

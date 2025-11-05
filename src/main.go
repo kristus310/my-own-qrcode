@@ -29,6 +29,9 @@ func main() {
 		defer db.Database.Close()
 	*/
 
+	fmt.Println("DECODIGN!!!!!!")
+	decode(encodedURL)
+
 	var code Code
 	gridSize := int(math.Sqrt(float64(FixedGridSize)))
 	code = Code{
@@ -40,6 +43,6 @@ func main() {
 	myApp.Window.DrawCode(code, encodedURL)
 	myApp.Window.SetContent(code.Grid)
 	myApp.Window.Open()
-	myApp.Window.SavePNG("output.png")
+	myApp.Window.SavePNG("output1.png")
 	myApp.Run()
 }

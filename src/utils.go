@@ -23,11 +23,19 @@ func checkError(err error, message string, important bool) {
 }
 
 func createDirectory(directoryName string) error {
-	permission := os.FileMode(777) //The folder can be read and written by EVERYONE
-
+	permission := os.FileMode(0777) //The folder can be read and written by EVERYONE, is meant only for Linux machines
 	err := os.MkdirAll(directoryName, permission)
 	if err != nil && os.IsNotExist(err) {
 		return err
 	}
 	return nil
+}
+
+func createFile(filePath string) (*os.File, error) {
+	return os.Create(filePath)
+}
+
+func closeFile(file *os.File) {
+	err := file.Close()
+	checkError(err, "Closing the file", false)
 }

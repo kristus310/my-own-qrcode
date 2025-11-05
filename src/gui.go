@@ -61,17 +61,13 @@ func (w *Window) SavePNG(fileName string) {
 	var err error
 	var file *os.File
 
-	buildDirectory := ".build"
+	buildDirectory := ".build/"
 	err = createDirectory(buildDirectory)
-	checkError(err, "Creating directory", true)
+	checkError(err, "Creating the build directory", true)
 
-	file, err = os.Create(buildDirectory + fileName)
+	file, err = createFile(buildDirectory + fileName)
 	checkError(err, "Creating the image file", false)
-
-	defer func(file *os.File) {
-		err = file.Close()
-		checkError(err, "Closing the image file", false)
-	}(file)
+	defer closeFile(file)
 
 	image := w.Window.Canvas().Capture()
 	err = png.Encode(file, image)
