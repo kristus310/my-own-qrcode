@@ -1,5 +1,6 @@
 # GoCipher
 ## ! IN PROGRESS !
+![Gocipher logo](shared/assets/logo-128x128.png)
 ### GoCipher is mine own version of QRCode made from scratch.
  - For learning purposes and fun!
  - All of the code is written in Go with Fyne GUI library
