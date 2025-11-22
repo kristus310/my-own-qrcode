@@ -47,7 +47,6 @@ func (a *Application) Run() {
 func (w *Window) DrawCode(code Code, hashed []int) {
 	for i := 0; i < code.GridSize*code.GridSize; i++ {
 		rect := canvas.NewRectangle(color.Black)
-
 		if i < len(hashed) && hashed[i] == 1 {
 			rect.FillColor = color.White
 		}
